@@ -32,6 +32,23 @@ jobs:
             adf-healthcare-pipelinemk/ARMTemplateForFactory.json \
             adf-healthcare-pipelinemk/ARMTemplateParametersForFactory.json
 
+      - name: Stop ADF Triggers before deployment
+        run: |
+          echo "Stopping all ADF triggers..."
+          az datafactory trigger list \
+            --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+            --factory-name ${{ secrets.AZURE_DATA_FACTORY_NAME }} \
+            --query "[?properties.runtimeState=='Started'].name" \
+            --output tsv | \
+          while read trigger; do
+            echo "Stopping trigger: $trigger"
+            az datafactory trigger stop \
+              --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+              --factory-name ${{ secrets.AZURE_DATA_FACTORY_NAME }} \
+              --name "$trigger"
+          done
+          echo "All triggers stopped"
+
       - name: Deploy ADF ARM Template
         uses: azure/arm-deploy@v1
         with:
@@ -43,9 +60,26 @@ jobs:
             factoryName=${{ secrets.AZURE_DATA_FACTORY_NAME }}
           deploymentMode: Incremental
 
+      - name: Restart ADF Triggers after deployment
+        run: |
+          echo "Restarting all ADF triggers..."
+          az datafactory trigger list \
+            --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+            --factory-name ${{ secrets.AZURE_DATA_FACTORY_NAME }} \
+            --query "[].name" \
+            --output tsv | \
+          while read trigger; do
+            echo "Starting trigger: $trigger"
+            az datafactory trigger start \
+              --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+              --factory-name ${{ secrets.AZURE_DATA_FACTORY_NAME }} \
+              --name "$trigger"
+          done
+          echo "All triggers restarted"
+
       - name: Deployment Summary
         run: |
-          echo " ADF Pipeline deployed successfully!"
+          echo "ADF Pipeline deployed successfully!"
           echo "Factory: ${{ env.AZURE_DATA_FACTORY_NAME }}"
           echo "Resource Group: ${{ env.AZURE_RESOURCE_GROUP }}"
           echo "Triggered by: ${{ github.actor }}"
