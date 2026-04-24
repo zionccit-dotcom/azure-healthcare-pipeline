@@ -1,0 +1,21 @@
+{
+	"name": "DS_Silver_CovidCleaned",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_ADLS_DataLake",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "covid/countries",
+				"fileSystem": "silver"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,15 @@
+{
+	"name": "adf-healthcare-pipelinemk",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Enabled",
+			"editable": true
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "8feec398-0fe0-4aec-8fa1-853b7680cde6",
+		"tenantId": "6d131867-a35f-4b3a-ae8a-08ede4b5a630"
+	}
+}

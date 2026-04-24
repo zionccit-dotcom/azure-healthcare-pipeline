@@ -1,0 +1,16 @@
+{
+	"name": "DS_REST_CovidCountries",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_REST_DiseaseSH",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": "countries"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

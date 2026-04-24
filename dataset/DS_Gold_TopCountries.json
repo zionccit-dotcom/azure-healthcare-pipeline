@@ -1,0 +1,65 @@
+{
+	"name": "DS_Gold_TopCountries",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_AzureSQL_Gold",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "country",
+				"type": "varchar"
+			},
+			{
+				"name": "continent",
+				"type": "varchar"
+			},
+			{
+				"name": "cases",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "deaths",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "recovered",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "death_rate_pct",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "recovery_rate_pct",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "tests_per_million",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "population",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "ingestion_date",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "gold_top_countries"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

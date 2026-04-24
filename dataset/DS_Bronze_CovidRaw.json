@@ -1,0 +1,20 @@
+{
+	"name": "DS_Bronze_CovidRaw",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_ADLS_DataLake",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "covid/countries",
+				"fileSystem": "bronze"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

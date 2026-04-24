@@ -1,0 +1,105 @@
+{
+	"name": "DF_Silver_CleanCovidData",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_Bronze_CovidRaw",
+						"type": "DatasetReference"
+					},
+					"name": "BronzeSource"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_Silver_CovidCleaned",
+						"type": "DatasetReference"
+					},
+					"name": "SilverSink",
+					"rejectedDataLinkedService": {
+						"referenceName": "LS_ADLS_DataLake",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [
+				{
+					"name": "SelectColumns"
+				},
+				{
+					"name": "AddCalculatedColumns"
+				},
+				{
+					"name": "FilterValidRows"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          active as integer,",
+				"          activePerOneMillion as double,",
+				"          cases as integer,",
+				"          casesPerOneMillion as integer,",
+				"          continent as string,",
+				"          country as string,",
+				"          countryInfo as ({_id} as short, flag as string, iso2 as string, iso3 as string, lat as double, long as double),",
+				"          critical as short,",
+				"          criticalPerOneMillion as double,",
+				"          deaths as integer,",
+				"          deathsPerOneMillion as short,",
+				"          oneCasePerPeople as integer,",
+				"          oneDeathPerPeople as integer,",
+				"          oneTestPerPeople as short,",
+				"          population as integer,",
+				"          recovered as integer,",
+				"          recoveredPerOneMillion as double,",
+				"          tests as integer,",
+				"          testsPerOneMillion as integer,",
+				"          todayCases as boolean,",
+				"          todayDeaths as boolean,",
+				"          todayRecovered as short,",
+				"          updated as long",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> BronzeSource",
+				"BronzeSource select(skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SelectColumns",
+				"SelectColumns derive({ death_rate_pct} = round((toDouble(deaths) / toDouble(cases)) * 100, 2),",
+				"          recovery_rate_pct = round((toDouble(recovered) / toDouble(cases)) * 100, 2),",
+				"          tests_per_million = round(toDouble(tests) / (toDouble(population) / 1000000), 0),",
+				"          ingestion_date = currentDate()) ~> AddCalculatedColumns",
+				"AddCalculatedColumns filter(cases > 0 && !isNull(country) && !isNull(continent)) ~> FilterValidRows",
+				"FilterValidRows sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     partitionFileNames:['covid_countries_cleaned.parquet'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          active,",
+				"          cases,",
+				"          continent,",
+				"          country,",
+				"          critical,",
+				"          deaths,",
+				"          population,",
+				"          recovered,",
+				"          tests,",
+				"          updated,",
+				"          recovery_rate_pct,",
+				"          tests_per_million,",
+				"          ingestion_date,",
+				"          death_rate_pct = { death_rate_pct}",
+				"     ),",
+				"     partitionBy('hash', 1)) ~> SilverSink"
+			]
+		}
+	}
+}

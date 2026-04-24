@@ -1,0 +1,25 @@
+{
+	"name": "Schedule",
+	"properties": {
+		"description": "Every 1 Day at 6:00 AM",
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "PL_Master_HealthcarePipeline",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Day",
+				"interval": 1,
+				"startTime": "2026-04-23T06:00:00",
+				"timeZone": "US Mountain Standard Time"
+			}
+		}
+	}
+}

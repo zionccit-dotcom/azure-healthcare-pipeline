@@ -1,0 +1,72 @@
+{
+	"name": "PL_Master_HealthcarePipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "RunBronze",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "CopyCovidDataToBronze",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "RunSilver",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "RunBronze",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_Silver_TransformCovidData",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "RunGold",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "RunSilver",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_Gold_LoadTopCountries",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2026-04-24T11:19:08Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
