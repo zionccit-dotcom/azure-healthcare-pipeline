@@ -28,19 +28,18 @@ jobs:
       - name: Get ADF ARM template from adf_publish branch
         run: |
           git fetch origin adf_publish
-          git checkout origin/adf_publish -- .
-           ls -la
-           find . -name "ARMTemplate*.jason" -type f
-            
+          git checkout origin/adf_publish -- \
+            adf-healthcare-pipelinemk/ARMTemplateForFactory.json \
+            adf-healthcare-pipelinemk/ARMTemplateParametersForFactory.json
 
       - name: Deploy ADF ARM Template
         uses: azure/arm-deploy@v1
         with:
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           resourceGroupName: ${{ secrets.AZURE_RESOURCE_GROUP }}
-          template: ARMTemplateForFactory.json
+          template: adf-healthcare-pipelinemk/ARMTemplateForFactory.json
           parameters: >
-            ARMTemplateParametersForFactory.json
+            adf-healthcare-pipelinemk/ARMTemplateParametersForFactory.json
             factoryName=${{ secrets.AZURE_DATA_FACTORY_NAME }}
           deploymentMode: Incremental
 
