@@ -23,13 +23,13 @@
 			"type": "string",
 			"defaultValue": "sqladmin"
 		},
-		"LS_REST_DiseaseSH_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://disease.sh/v3/covid-19/"
-		},
 		"LS_KeyVault_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://kv-healthcare-mk.vault.azure.net/"
+		},
+		"LS_REST_DiseaseSH_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://disease.sh/v3/covid-19/"
 		},
 		"containerUri": {
 			"type": "string",
@@ -58,11 +58,11 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"LS_REST_DiseaseSH_properties_typeProperties_url": {
-						"value": "[parameters('LS_REST_DiseaseSH_properties_typeProperties_url')]"
-					},
 					"LS_KeyVault_properties_typeProperties_baseUrl": {
 						"value": "[parameters('LS_KeyVault_properties_typeProperties_baseUrl')]"
+					},
+					"LS_REST_DiseaseSH_properties_typeProperties_url": {
+						"value": "[parameters('LS_REST_DiseaseSH_properties_typeProperties_url')]"
 					},
 					"LS_ADLS_DataLake_properties_typeProperties_url": {
 						"value": "[parameters('LS_ADLS_DataLake_properties_typeProperties_url')]"

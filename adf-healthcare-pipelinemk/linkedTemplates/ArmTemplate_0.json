@@ -7,13 +7,13 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "adf-healthcare-pipelinemk"
 		},
-		"LS_REST_DiseaseSH_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://disease.sh/v3/covid-19/"
-		},
 		"LS_KeyVault_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://kv-healthcare-mk.vault.azure.net/"
+		},
+		"LS_REST_DiseaseSH_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://disease.sh/v3/covid-19/"
 		},
 		"LS_ADLS_DataLake_properties_typeProperties_url": {
 			"type": "string",
@@ -37,6 +37,19 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/LS_KeyVault')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('LS_KeyVault_properties_typeProperties_baseUrl')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/LS_REST_DiseaseSH')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -48,19 +61,6 @@
 					"url": "[parameters('LS_REST_DiseaseSH_properties_typeProperties_url')]",
 					"enableServerCertificateValidation": true,
 					"authenticationType": "Anonymous"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/LS_KeyVault')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureKeyVault",
-				"typeProperties": {
-					"baseUrl": "[parameters('LS_KeyVault_properties_typeProperties_baseUrl')]"
 				}
 			},
 			"dependsOn": []

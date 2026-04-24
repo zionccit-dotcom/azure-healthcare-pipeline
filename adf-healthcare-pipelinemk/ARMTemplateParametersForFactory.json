@@ -17,11 +17,11 @@
 		"LS_AzureSQL_Gold_properties_typeProperties_userName": {
 			"value": "sqladmin"
 		},
-		"LS_REST_DiseaseSH_properties_typeProperties_url": {
-			"value": "https://disease.sh/v3/covid-19/"
-		},
 		"LS_KeyVault_properties_typeProperties_baseUrl": {
 			"value": "https://kv-healthcare-mk.vault.azure.net/"
+		},
+		"LS_REST_DiseaseSH_properties_typeProperties_url": {
+			"value": "https://disease.sh/v3/covid-19/"
 		}
 	}
 }
