@@ -28,9 +28,10 @@ jobs:
       - name: Get ADF ARM template from adf_publish branch
         run: |
           git fetch origin adf_publish
-          git checkout origin/adf_publish -- \
-            ARMTemplateForFactory.json \
-            ARMTemplateParametersForFactory.json
+          git checkout origin/adf_publish -- .
+           ls -la
+           find . -name "ARMTemplate*.jason" -type f
+            
 
       - name: Deploy ADF ARM Template
         uses: azure/arm-deploy@v1
