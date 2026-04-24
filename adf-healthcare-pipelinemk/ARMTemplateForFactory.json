@@ -112,7 +112,14 @@
 						"name": "CopyToGoldTopCountries",
 						"description": "We read from Silver Parquet",
 						"type": "Copy",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "WakeUpDatabase",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -336,6 +343,27 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "WakeUpDatabase",
+						"description": "Instead of fighting the auto-pause, let's add a stored procedure activity at the start of RunGold that wakes the database first:",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[WakeUp]"
+						},
+						"linkedServiceName": {
+							"referenceName": "LS_AzureSQL_Gold",
+							"type": "LinkedServiceReference"
+						}
 					}
 				],
 				"policy": {
@@ -346,7 +374,8 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_Silver_CovidCleaned')]",
-				"[concat(variables('factoryId'), '/datasets/DS_Gold_TopCountries')]"
+				"[concat(variables('factoryId'), '/datasets/DS_Gold_TopCountries')]",
+				"[concat(variables('factoryId'), '/linkedServices/LS_AzureSQL_Gold')]"
 			]
 		},
 		{
