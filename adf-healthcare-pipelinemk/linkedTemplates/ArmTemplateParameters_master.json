@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adf-healthcare-pipelinemk"
+		},
+		"LS_ADLS_DataLake_properties_typeProperties_url": {
+			"value": "https://healthcaredatalakemk.dfs.core.windows.net/"
+		},
+		"LS_AzureSQL_Gold_properties_typeProperties_server": {
+			"value": "sql-healthcare-mk2.database.windows.net"
+		},
+		"LS_AzureSQL_Gold_properties_typeProperties_database": {
+			"value": "db-healthcare-gold"
+		},
+		"LS_AzureSQL_Gold_properties_typeProperties_userName": {
+			"value": "sqladmin"
+		},
+		"LS_REST_DiseaseSH_properties_typeProperties_url": {
+			"value": "https://disease.sh/v3/covid-19/"
+		},
+		"LS_KeyVault_properties_typeProperties_baseUrl": {
+			"value": "https://kv-healthcare-mk.vault.azure.net/"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
