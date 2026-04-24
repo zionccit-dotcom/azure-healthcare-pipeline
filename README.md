@@ -474,6 +474,18 @@ whichever tab you configure first.
 Delete wrong dataset from sink and re-select correct one.
 
 ---
+### Key Vault — RBAC Unauthorized Error
+Error: "The operation is not allowed by RBAC. 
+        You are unauthorized to view these contents."
+Fix: Assigned "Key Vault Secrets Officer" role to 
+     own user via Access Control (IAM)
+
+### Key Vault — Serverless DB Auto-Pause
+Error: "Database is not currently available"
+Fix: Resumed paused serverless database from 
+     Azure Portal → db-healthcare-gold → Resume
+     Also increased auto-pause delay to 4 hours
+---
 
 ## 📊 Pipeline Performance
 
