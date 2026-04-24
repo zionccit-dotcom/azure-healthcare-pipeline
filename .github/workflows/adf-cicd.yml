@@ -1,0 +1,52 @@
+name: Azure Data Factory CI/CD
+
+on:
+  push:
+    branches:
+      - adf_publish
+  workflow_dispatch:
+
+env:
+  AZURE_RESOURCE_GROUP: ${{ secrets.AZURE_RESOURCE_GROUP }}
+  AZURE_DATA_FACTORY_NAME: ${{ secrets.AZURE_DATA_FACTORY_NAME }}
+  AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+jobs:
+  deploy:
+    name: Deploy ADF to Production
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Get ADF ARM template from adf_publish branch
+        run: |
+          git fetch origin adf_publish
+          git checkout origin/adf_publish -- \
+            ARMTemplateForFactory.json \
+            ARMTemplateParametersForFactory.json
+
+      - name: Deploy ADF ARM Template
+        uses: azure/arm-deploy@v1
+        with:
+          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          resourceGroupName: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          template: ARMTemplateForFactory.json
+          parameters: >
+            ARMTemplateParametersForFactory.json
+            factoryName=${{ secrets.AZURE_DATA_FACTORY_NAME }}
+          deploymentMode: Incremental
+
+      - name: Deployment Summary
+        run: |
+          echo " ADF Pipeline deployed successfully!"
+          echo "Factory: ${{ env.AZURE_DATA_FACTORY_NAME }}"
+          echo "Resource Group: ${{ env.AZURE_RESOURCE_GROUP }}"
+          echo "Triggered by: ${{ github.actor }}"
+          echo "Commit: ${{ github.sha }}"
