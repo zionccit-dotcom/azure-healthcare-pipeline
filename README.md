@@ -497,6 +497,12 @@ adf-healthcare-pipelinemk/ARMTemplateForFactory.json
 ```
 "TriggerEnabledCannotUpdate: Cannot update enabled Trigger; disable it first."
 ```
+### Session 3 additions:
+- Azure Monitor diagnostic settings
+- Log Analytics workspace  
+- Action group with email notifications
+- 2 alert rules (pipeline failure + success)
+  
 **Fix:** Added pre-deploy step to stop triggers and post-deploy step to restart:
 ```yaml
 az datafactory trigger stop --name "$trigger"
