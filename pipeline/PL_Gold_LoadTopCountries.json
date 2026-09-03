@@ -21,7 +21,12 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": [],
+				"userProperties": [
+					{
+						"name": "factory-floor-ignore",
+						"value": "ADF-017: WakeUpDatabase is a best-effort resume for the auto-paused serverless database and is expected to fail on a cold start; this copy targets the same database and fails on its own if it is genuinely unreachable."
+					}
+				],
 				"typeProperties": {
 					"source": {
 						"type": "ParquetSource",
