@@ -63,6 +63,24 @@
 					},
 					"waitOnCompletion": true
 				}
+			},
+			{
+				"name": "FailOnBronzeIngest",
+				"description": "Failure path for RunBronze. Pairs with the Succeeded edge into RunSilver so the run is reported as failed rather than silently succeeding, and records why the downstream stages did not run.",
+				"type": "Fail",
+				"dependsOn": [
+					{
+						"activity": "RunBronze",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"message": "@concat('Bronze ingest failed - Silver and Gold were skipped, so the gold table was not truncated or reloaded. Pipeline: ', pipeline().Pipeline, ' | Run ID: ', pipeline().RunId, ' | Trigger time: ', pipeline().TriggerTime)",
+					"errorCode": "BronzeIngestFailed"
+				}
 			}
 		],
 		"annotations": [],
