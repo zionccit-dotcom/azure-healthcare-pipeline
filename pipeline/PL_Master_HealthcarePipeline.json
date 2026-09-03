@@ -25,7 +25,7 @@
 					{
 						"activity": "RunBronze",
 						"dependencyConditions": [
-							"Completed"
+							"Succeeded"
 						]
 					}
 				],
@@ -48,7 +48,7 @@
 					{
 						"activity": "RunSilver",
 						"dependencyConditions": [
-							"Completed"
+							"Succeeded"
 						]
 					}
 				],
